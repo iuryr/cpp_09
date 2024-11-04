@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <cstdlib>
+#include <string> //overload of getline methods
 
 std::map<std::string, float> BitcoinExchange::parsePriceData(std::string filename)
 {
@@ -23,8 +24,32 @@ std::map<std::string, float> BitcoinExchange::parsePriceData(std::string filenam
 		date = line.substr(0, line.find(",", 0));
 		price = line.substr(line.find(",", 0) + 1, std::string::npos);
 		btc_price.insert(std::pair<std::string, float>(date, std::atof(price.c_str())));
-		std::cout << date << " | " << btc_price[date] << std::endl;
+		// std::cout << date << " | " << btc_price[date] << std::endl;
 		std::getline(input_file, line);
 	}
 	return btc_price;
+}
+
+std::ostringstream& BitcoinExchange::processInputFile(std::ostringstream& output, std::fstream& file)
+{
+	processFirstLine(output, file);
+	
+	return output;
+}
+
+std::ostringstream& BitcoinExchange::processFirstLine(std::ostringstream& output, std::fstream& file)
+{
+	std::string firstLine;
+
+	std::getline(file, firstLine);
+	if (firstLine.compare("date | value") == 0)
+	{
+		output << firstLine << std::endl;
+		return output;
+	}
+	else 
+	{
+		output << "Bad input => " << firstLine << std::endl;
+		return output;
+	}
 }
