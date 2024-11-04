@@ -44,11 +44,13 @@ std::ostringstream& BitcoinExchange::processFirstLine(std::ostringstream& output
 	std::getline(file, firstLine);
 	if (firstLine.compare("date | value") == 0)
 	{
-		output << firstLine << std::endl;
+		//ignore it
 		return output;
 	}
 	else 
 	{
+		//TODO
+		//check if its a proper line. If so, process it;
 		output << "Bad input => " << firstLine << std::endl;
 		return output;
 	}
