@@ -122,7 +122,7 @@ int BitcoinExchange::parseDate(std::string date)
 	}
 
 	std::string day = date.substr(date.rfind("-") + 1, std::string::npos);
-	if (day.size() != 3)
+	if (day.size() != 3) //accounting for whitespace before |
 	{
 		return 1;
 	}
