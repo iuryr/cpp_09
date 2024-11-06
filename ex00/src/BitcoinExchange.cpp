@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include "qolMacros.hpp"
 
 #include <fstream>
 #include <cstdlib>
@@ -33,6 +34,7 @@ std::map<std::string, float> BitcoinExchange::parsePriceData(std::string filenam
 std::ostringstream& BitcoinExchange::processInputFile(std::ostringstream& output, std::fstream& file)
 {
 	processFirstLine(output, file);
+	processRemainder(output, file);
 	
 	return output;
 }
@@ -49,9 +51,88 @@ std::ostringstream& BitcoinExchange::processFirstLine(std::ostringstream& output
 	}
 	else 
 	{
-		//TODO
-		//check if its a proper line. If so, process it;
-		output << "Bad input => " << firstLine << std::endl;
+		processDataLine(output, file);
 		return output;
 	}
+}
+
+std::ostringstream& BitcoinExchange::processRemainder(std::ostringstream& output, std::fstream& file)
+{
+	while (file.eof() == false)
+	{
+		processDataLine(output, file);
+	}
+
+	return output;
+}
+
+std::ostringstream& BitcoinExchange::processDataLine(std::ostringstream &output, std::fstream &file)
+{
+	std::string line;
+
+	std::getline(file, line);
+	if (line.find("|") == std::string::npos && file.eof() == false)
+	{
+		output << "Error: bad input => " << line << std::endl;
+		return output;
+	}
+	else 
+	{
+		std::string dateValue = line.substr(0, line.find("|"));
+		if (parseDate(dateValue) == 1)
+		{
+			output << "Error: bad date => " << dateValue << std::endl;
+			return output;
+		};
+		std::string qtyValue = line.substr(line.find("|") + 1, std::string::npos);
+		println(dateValue);
+		println(qtyValue);
+	}
+
+	return output;
+}
+
+
+int BitcoinExchange::parseDate(std::string date)
+{
+	std::string year = date.substr(0, date.find("-"));
+	if (year.size() != 4)
+	{
+		return 1;
+	}
+	for (std::string::iterator it = year.begin(); it != year.end(); it++)
+	{
+		if (isdigit(*it) == 0)
+		{
+			return 1;
+		}
+	}
+
+	std::string month = date.substr(date.find("-") + 1, 3);
+	if (month[month.size() - 1] != '-')
+	{
+		return 1;
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		if (isdigit(month[i]) == 0)
+		{
+			return 1;
+		}
+	}
+
+	std::string day = date.substr(date.rfind("-") + 1, std::string::npos);
+	if (day.size() != 3)
+	{
+		return 1;
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		if (isdigit(day[i]) == 0)
+		{
+			return 1;
+		}
+	}
+
+	return 0;
 }
