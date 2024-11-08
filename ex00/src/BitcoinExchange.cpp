@@ -76,17 +76,33 @@ std::ostringstream& BitcoinExchange::processDataLine(std::ostringstream &output,
 		output << "Error: bad input => " << line << std::endl;
 		return output;
 	}
-	else 
+	else if (file.eof() == false) 
 	{
 		std::string dateValue = line.substr(0, line.find("|"));
 		if (parseDate(dateValue) == 1)
 		{
 			output << "Error: bad date => " << dateValue << std::endl;
 			return output;
-		};
-		std::string qtyValue = line.substr(line.find("|") + 1, std::string::npos);
-		println(dateValue);
-		println(qtyValue);
+		}
+
+		std::string qtyValue = line.substr(line.find("|") + 2, std::string::npos);
+		if (parseQty(qtyValue) == 1)
+		{
+			output << "Error: bad qty input => " << qtyValue << std::endl;
+			return output;
+		}
+		else if (parseQty(qtyValue) == 2)
+		{
+			output << "Error: too large a number => " << qtyValue << std::endl;
+			return output;
+		}
+		else if (parseQty(qtyValue) == 3)
+		{
+			output << "Error: not a positive number => " << qtyValue << std::endl;
+			return output;
+		}
+
+		//do the actual functioning of the program
 	}
 
 	return output;
@@ -179,6 +195,57 @@ int BitcoinExchange::parseDate(std::string date)
 		{
 			return 1;
 		}
+	}
+
+	return 0;
+}
+
+int BitcoinExchange::parseQty(std::string qty)
+{
+	long double qtyNumber = strtold(qty.c_str(), NULL);
+	int plus = 0;
+	int minus = 0;
+	int dot = 0;
+
+	for (std::string::iterator it = qty.begin(); it != qty.end(); ++it)
+	{
+		if (*it == '+')
+		{
+			plus++;
+			if (plus > 1 || (plus + minus == 2))
+			{
+				return 1;
+			}
+		}
+		else if (*it == '-')
+		{
+			minus++;
+			if (minus > 1 || (plus + minus == 2))
+			{
+				return 1;
+			}
+		}
+		else if (*it == '.')
+		{
+			dot++;
+			if (dot > 1)
+			{
+				return 1;
+			}
+		}
+		else if (isdigit(*it) == 0)
+		{
+			return 1;
+		}
+	}
+
+	if (qtyNumber > 1000)
+	{
+		return 2;
+	}
+	if (qtyNumber < 0)
+	{
+		return 3;
 	}
 
 	return 0;

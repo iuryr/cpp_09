@@ -18,6 +18,7 @@ public:
 	static std::ostringstream& processRemainder(std::ostringstream& output, std::fstream& file);
 	static std::ostringstream& processDataLine(std::ostringstream& output, std::fstream& file);
 	static int parseDate(std::string date);
+	static int parseQty(std::string qty);
 };
 
 #endif //_BITCOIN_EXCHANGE_
