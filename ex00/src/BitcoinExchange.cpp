@@ -108,6 +108,21 @@ int BitcoinExchange::parseDate(std::string date)
 		}
 	}
 
+	long long yearNumber = strtoll(year.c_str(), NULL, 10);
+	if (yearNumber < 0)
+	{
+		return 1;
+	}
+
+	bool leapYear;
+	if ((yearNumber % 4 == 0 && yearNumber % 100 != 0) || (yearNumber % 400 == 0)) {
+        leapYear = true;
+    }
+	else
+	{
+		leapYear = false;
+	}
+
 	std::string month = date.substr(date.find("-") + 1, 3);
 	if (month[month.size() - 1] != '-')
 	{
@@ -121,6 +136,12 @@ int BitcoinExchange::parseDate(std::string date)
 		}
 	}
 
+	long long monthNumber = strtoll(month.c_str(), NULL, 10);
+	if (monthNumber < 1 || monthNumber > 12)
+	{
+		return 1;
+	}
+
 	std::string day = date.substr(date.rfind("-") + 1, std::string::npos);
 	if (day.size() != 3) //accounting for whitespace before |
 	{
@@ -129,6 +150,32 @@ int BitcoinExchange::parseDate(std::string date)
 	for (int i = 0; i < 2; i++)
 	{
 		if (isdigit(day[i]) == 0)
+		{
+			return 1;
+		}
+	}
+
+	long long dayNumber = strtoll(day.c_str(), NULL, 10);
+	if (dayNumber < 1 || dayNumber > 31)
+	{
+		return 1;
+	}
+	if (monthNumber == 4 || monthNumber == 6 ||
+		monthNumber == 9 || monthNumber == 11)
+	{
+		if (dayNumber > 30)
+		{
+			return 1;
+		}
+	}
+	if (monthNumber == 2)
+	{
+		if (dayNumber > 29)
+		{
+			return 1;
+		}
+
+		if (leapYear == true && dayNumber > 28)
 		{
 			return 1;
 		}
