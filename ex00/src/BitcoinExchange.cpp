@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <string> //overload of getline methods
 
+std::map<std::string, float> BitcoinExchange::priceData;
+
 std::map<std::string, float> BitcoinExchange::parsePriceData(std::string filename)
 {
 	std::map<std::string, float> btc_price;
@@ -88,7 +90,7 @@ std::ostringstream& BitcoinExchange::processDataLine(std::ostringstream &output,
 		std::string qtyValue = line.substr(line.find("|") + 2, std::string::npos);
 		if (parseQty(qtyValue) == 1)
 		{
-			output << "Error: bad qty input => " << qtyValue << std::endl;
+			output << "Error: bad quantity input => " << qtyValue << std::endl;
 			return output;
 		}
 		else if (parseQty(qtyValue) == 2)
@@ -103,6 +105,23 @@ std::ostringstream& BitcoinExchange::processDataLine(std::ostringstream &output,
 		}
 
 		//do the actual functioning of the program
+		dateValue = line.substr(0, line.find("|") - 1);
+		if (dateValue < priceData.begin()->first)
+		{
+			output << "Error: data param before first available date" << std::endl;
+			return output;
+		}
+		std::map<std::string, float>::iterator it = priceData.lower_bound(dateValue);
+		if (it->first != dateValue)
+		{
+			it--;
+		}
+		output << it->first << " => " << qtyValue << " = ";
+		float qtyFloat = std::atof(qtyValue.c_str());
+		output << qtyFloat * it->second << std::endl;
+
+		return output;
+
 	}
 
 	return output;

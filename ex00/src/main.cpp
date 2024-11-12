@@ -42,12 +42,12 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
+	BitcoinExchange::priceData = BitcoinExchange::parsePriceData("data.csv");
+
 	std::ostringstream output;
 	BitcoinExchange::processInputFile(output, inputFile);
 
 	std::cout << output.str();
 
 	inputFile.close();
-	// std::map<std::string, float> ts;
-	// ts = BitcoinExchange::parsePriceData("data.csv");
 }
