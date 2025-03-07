@@ -1,0 +1,21 @@
+#ifndef _RPN_HPP_
+#define _RPN_HPP_
+
+#include <stack>
+#include <string>
+
+class RPN
+{
+public:
+	static void fillStack(std::string& input);
+
+private:
+	RPN(void);
+	~RPN(void);
+	RPN(const RPN& obj);
+	RPN& operator=(const RPN& obj);
+
+	static std::stack<std::string> _opElements;
+};
+
+#endif //_RPN_HPP_
