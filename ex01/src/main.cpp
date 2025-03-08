@@ -12,5 +12,9 @@ int main(int argc, char** argv)
 
 	std::string input(argv[1]);
 
-	RPN::fillStack(input);
+	if (RPN::process(input) == 1)
+	{
+		return 1;
+	}
+	return 0;
 }

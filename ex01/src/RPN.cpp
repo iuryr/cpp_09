@@ -1,6 +1,10 @@
 #include "RPN.hpp"
+#include "qolMacros.hpp"
+#include <cctype>
 
-std::stack<std::string> RPN::_opElements;
+static bool isOperatorSymbol(char c);
+
+std::stack<int> RPN::_opElements;
 
 RPN::RPN(void)
 {
@@ -21,30 +25,39 @@ RPN& RPN::operator=(const RPN& obj)
 	return *this;
 }
 
-void RPN::fillStack(std::string& input)
+int RPN::process(std::string& input)
 {
-	std::string sep(" ");
-	std::string token;
-
-	size_t found = input.rfind(sep);
-	while (found != std::string::npos)
+	//ignore leading whitespaces
+	size_t firstNonWSChar = input.find_first_not_of(" ");
+	if (firstNonWSChar != std::string::npos)
 	{
-		if (found == input.length() - 1)
-		{
-			input = input.substr(0, found);
-			found = input.rfind(sep);
-			continue;
-		}
-
-		token = input.substr(found + 1);
-		RPN::_opElements.push(token);
-
-		input = input.substr(0, found);
-		found = input.rfind(sep);
+		input = input.substr(firstNonWSChar);
+	}
+	else
+	{
+		input.clear();
+		return 1;
 	}
 
-	if (input.empty() == false)
+	//ignore trailing whitespaces
+	size_t lastNonWSChar = input.find_last_not_of(" ");
+	if (lastNonWSChar != std::string::npos)
 	{
-		RPN::_opElements.push(input);
+		input.erase(lastNonWSChar + 1);
 	}
+	else 
+	{
+		input.clear();
+		return 1;
+	}
+
+
+	return 0;
+}
+
+static bool isOperatorSymbol(char c)
+{
+	if (c == '+' || c == '-' || c == '/' || c == '*')
+		return true;
+	return false;
 }

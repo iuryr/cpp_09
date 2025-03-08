@@ -7,7 +7,7 @@
 class RPN
 {
 public:
-	static void fillStack(std::string& input);
+	static int process(std::string& input);
 
 private:
 	RPN(void);
@@ -15,7 +15,7 @@ private:
 	RPN(const RPN& obj);
 	RPN& operator=(const RPN& obj);
 
-	static std::stack<std::string> _opElements;
+	static std::stack<int> _opElements;
 };
 
 #endif //_RPN_HPP_
