@@ -6,11 +6,13 @@
 
 class BitcoinExchange
 {
-public:
+private:
 	BitcoinExchange(void);
 	~BitcoinExchange(void);
 	BitcoinExchange(const BitcoinExchange& obj);
 	BitcoinExchange& operator=(const BitcoinExchange& obj);
+
+public:
 
 	static std::map<std::string, float> priceData;
 

@@ -7,6 +7,25 @@
 
 std::map<std::string, float> BitcoinExchange::priceData;
 
+BitcoinExchange::BitcoinExchange(void)
+{
+}
+
+BitcoinExchange::~BitcoinExchange(void)
+{
+}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& obj)
+{
+	*this = obj;
+}
+
+BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& obj)
+{
+	(void) obj;
+	return *this;
+}
+
 std::map<std::string, float> BitcoinExchange::parsePriceData(std::string filename)
 {
 	std::map<std::string, float> btc_price;
@@ -121,7 +140,6 @@ std::ostringstream& BitcoinExchange::processDataLine(std::ostringstream &output,
 		output << qtyFloat * it->second << std::endl;
 
 		return output;
-
 	}
 
 	return output;
