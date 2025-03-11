@@ -8,6 +8,7 @@ class RPN
 {
 public:
 	static int process(std::string& input);
+	static int eval(std::stack<int>& stack, char opSymbol);
 
 private:
 	RPN(void);
