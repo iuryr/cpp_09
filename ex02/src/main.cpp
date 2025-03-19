@@ -44,5 +44,5 @@ int main(int argc, char** argv)
 	}
 
 	printBefore(input);
-	PmergeMe::populateContainers(input);
+	PmergeMe::vMergeInsertSort(input);
 }

@@ -5,17 +5,31 @@
 #include <string>
 #include <vector>
 
+typedef	std::vector<int>::iterator vIter ;
+typedef std::pair<int, int> intPair;
+
 class PmergeMe
 {
 public:
 	static bool isValidInput(std::vector<std::string>& input);
 	static bool hasDuplicate(std::vector<std::string> input);
-	static void populateContainers(std::vector<std::string> input);
 
-	static std::vector<int> inputVector;
-	static std::deque<int> inputDeque;
+	static void vMergeInsertSort(std::vector<std::string>& input);
+	static void populateVector(std::vector<std::string> input);
+	static void fillSortedvPairs(void);
+	static void vFillMainAndPend(void);
+
+	static void populateDeque(std::vector<std::string> input);
+
 	static bool hasStraggler;
 	static int	straggler;
+
+	static std::vector<int> inputVector;
+	static std::vector<std::pair<int, int> > vPairs;
+	static std::vector<int> vMain;
+	static std::vector<int> vPend;
+
+	static std::deque<int> inputDeque;
 
 private:
 	PmergeMe(void);
