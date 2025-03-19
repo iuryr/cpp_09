@@ -10,6 +10,7 @@ class PmergeMe
 public:
 	static bool isValidInput(std::vector<std::string>& input);
 	static bool hasDuplicate(std::vector<std::string> input);
+	static void populateContainers(std::vector<std::string> input);
 
 	static std::vector<int> _inputVector;
 	static std::deque<int> _inputDeque;

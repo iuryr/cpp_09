@@ -1,6 +1,7 @@
 #include "PmergeMe.hpp"
 #include "qolMacros.hpp"
 #include <algorithm>
+#include <cstdlib>
 
 std::vector<int> PmergeMe::_inputVector;
 std::deque<int> PmergeMe::_inputDeque;
@@ -77,4 +78,20 @@ bool PmergeMe::hasDuplicate(std::vector<std::string> input)
 	}
 
 	return false;
+}
+
+void PmergeMe::populateContainers(std::vector<std::string> input)
+{
+	std::vector<std::string>::iterator it = input.begin();
+	std::vector<std::string>::iterator ite = input.end();
+
+	int number;
+
+	while (it != ite)
+	{
+		number = std::strtol((*it).c_str(), NULL, 10);
+		_inputDeque.push_back(number);
+		_inputVector.push_back(number);
+		++it;
+	}
 }
