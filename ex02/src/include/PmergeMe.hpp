@@ -2,10 +2,12 @@
 #define _PMERGE_HPP_
 
 #include <string>
+#include <vector>
 
 class PmergeMe
 {
 public:
+	static bool isValidInput(std::vector<std::string> input);
 	static bool hasNegative(std::string& input);
 	static bool hasDuplicate(std::string& input);
 
