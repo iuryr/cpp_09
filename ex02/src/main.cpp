@@ -2,6 +2,21 @@
 #include "qolMacros.hpp"
 #include <vector>
 
+void printBefore(std::vector<std::string> input)
+{
+	std::vector<std::string>::iterator it = input.begin();
+	std::vector<std::string>::iterator ite = input.end();
+
+	std::cout << "Before: ";
+
+	while (it != ite)
+	{
+		std::cout << *it << " ";
+		++it;
+	}
+	std::cout << std::endl;
+}
+
 int main(int argc, char** argv)
 {
 	if (argc == 1)
@@ -22,4 +37,11 @@ int main(int argc, char** argv)
 	{
 		return 1;
 	}
+
+	if (PmergeMe::hasDuplicate(input) == true)
+	{
+		return 1;
+	}
+
+	printBefore(input);
 }

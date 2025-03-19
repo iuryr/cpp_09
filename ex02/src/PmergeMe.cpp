@@ -1,5 +1,9 @@
 #include "PmergeMe.hpp"
 #include "qolMacros.hpp"
+#include <algorithm>
+
+std::vector<int> PmergeMe::_inputVector;
+std::deque<int> PmergeMe::_inputDeque;
 
 PmergeMe::PmergeMe(void)
 {
@@ -24,7 +28,7 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& obj)
 	return *this;
 }
 
-bool PmergeMe::isValidInput(std::vector<std::string> input)
+bool PmergeMe::isValidInput(std::vector<std::string>& input)
 {
 	std::vector<std::string>::iterator it = input.begin();
 	std::vector<std::string>::iterator ite = input.end();
@@ -52,4 +56,25 @@ bool PmergeMe::isValidInput(std::vector<std::string> input)
 	}
 
 	return true;
+}
+
+bool PmergeMe::hasDuplicate(std::vector<std::string> input)
+{
+	std::sort(input.begin(), input.end());
+
+	std::vector<std::string>::iterator it = input.begin();
+	std::vector<std::string>::iterator ite = input.end();
+
+	while (it != ite)
+	{
+		if (*it == *(it+1))
+		{
+			println("Sequence has duplicate element");
+			return true;
+		}
+
+		++it;
+	}
+
+	return false;
 }
