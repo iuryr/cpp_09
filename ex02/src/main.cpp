@@ -17,6 +17,21 @@ void printBefore(std::vector<std::string> input)
 	std::cout << std::endl;
 }
 
+void printAfter(void)
+{
+	std::vector<int>::iterator it = PmergeMe::vMain.begin();
+	std::vector<int>::iterator ite = PmergeMe::vMain.end();
+
+	std::cout << "After: ";
+
+	while (it != ite)
+	{
+		std::cout << *it << " ";
+		++it;
+	}
+	std::cout << std::endl;
+}
+
 int main(int argc, char** argv)
 {
 	if (argc == 1)
@@ -45,4 +60,5 @@ int main(int argc, char** argv)
 
 	printBefore(input);
 	PmergeMe::vMergeInsertSort(input);
+	printAfter();
 }

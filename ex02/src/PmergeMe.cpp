@@ -12,6 +12,7 @@ std::vector<std::pair<int, int> > PmergeMe::vPairs;
 std::vector<int> PmergeMe::vMain;
 std::vector<int> PmergeMe::vPend;
 std::vector<int> PmergeMe::vJacobsthal;
+std::vector<int> PmergeMe::vInsertion;
 
 PmergeMe::PmergeMe(void)
 {
@@ -116,6 +117,8 @@ void PmergeMe::vMergeInsertSort(std::vector<std::string>& input)
 	fillSortedvPairs();
 	vFillMainAndPend();
 	vFillJacobsthal();
+	vFillInsertion();
+	vInsertInOrder();
 }
 
 void PmergeMe::populateVector(std::vector<std::string> input)
@@ -124,7 +127,7 @@ void PmergeMe::populateVector(std::vector<std::string> input)
 	if (input.size() % 2 != 0)
 	{
 		hasStraggler = true;
-		straggler = strtol(input.back().c_str(), NULL, 10);
+		straggler = std::strtol(input.back().c_str(), NULL, 10);
 		input.pop_back();
 	}
 
@@ -144,7 +147,7 @@ void PmergeMe::populateVector(std::vector<std::string> input)
 
 void PmergeMe::fillSortedvPairs(void)
 {
-	for (vIter it = inputVector.begin(); it < inputVector.end(); it += 2)
+	for (vIter it = inputVector.begin(); it != inputVector.end(); it += 2)
 	{
 		intPair pair(*it, *(it + 1));
 
@@ -182,14 +185,72 @@ void PmergeMe::vFillJacobsthal(void)
 	vJacobsthal.push_back(0);
 	vJacobsthal.push_back(1);
 
-	int next = *(vJacobsthal.rbegin() + 1) * 2 + vJacobsthal.back();
+	int next = *(vJacobsthal.end() - 2) * 2 + vJacobsthal.back();
 
-	while (next < static_cast<int>(vPend.size()))
+	while (next < static_cast<int>(vPend.size() - 1))
 	{
 		vJacobsthal.push_back(next);
-		next = *(vJacobsthal.rbegin() + 1) * 2 + vJacobsthal.back();
+		next = *(vJacobsthal.end() - 2) * 2 + vJacobsthal.back();
 	}
 
 	//delete second element to ensure uniquenesse of indexes
 	vJacobsthal.erase(vJacobsthal.begin() + 1);
+}
+
+void PmergeMe::vFillInsertion(void)
+{
+	vInsertion.push_back(vJacobsthal.front());
+
+	while (vInsertion.size() < vPend.size())
+	{
+		//erasing because we already added first element
+		vJacobsthal.erase(vJacobsthal.begin());
+
+		if (vJacobsthal.empty() == false)
+		{
+			int last = vInsertion.back();
+			int jacob = vJacobsthal.front();
+
+			vInsertion.push_back(jacob--);
+
+			while (jacob > last && vInsertion.size() < vPend.size())
+			{
+				std::vector<int>::iterator it = vInsertion.begin();
+				std::vector<int>::iterator ite = vInsertion.end();
+
+				if (std::find(it, ite, jacob) == ite)
+				{
+					vInsertion.push_back(jacob);
+				}
+
+				jacob--;
+			}
+		}
+		else 
+		{
+			int missing = vPend.size() - 1;
+
+			while (vInsertion.size() < vPend.size())
+			{
+				vInsertion.push_back(missing--);
+			}
+		}
+	}
+}
+
+void PmergeMe::vInsertInOrder(void)
+{
+	std::vector<int>::iterator it = vInsertion.begin();
+	std::vector<int>::iterator ite = vInsertion.end();
+
+	while (it != ite)
+	{
+		int value = vPend[*it];
+
+		std::vector<int>::iterator position = 
+			std::upper_bound(vMain.begin(), vMain.end(), value);
+
+		vMain.insert(position, value);
+		++it;
+	}
 }
