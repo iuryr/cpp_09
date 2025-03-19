@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <cstdlib>
 
-std::vector<int> PmergeMe::_inputVector;
-std::deque<int> PmergeMe::_inputDeque;
+std::vector<int> PmergeMe::inputVector;
+std::deque<int> PmergeMe::inputDeque;
+bool PmergeMe::hasStraggler = false;
+int PmergeMe::straggler;
 
 PmergeMe::PmergeMe(void)
 {
@@ -82,6 +84,14 @@ bool PmergeMe::hasDuplicate(std::vector<std::string> input)
 
 void PmergeMe::populateContainers(std::vector<std::string> input)
 {
+	//capture straggler if input is odd numbered
+	if (input.size() % 2 != 0)
+	{
+		hasStraggler = true;
+		straggler = strtol(input.back().c_str(), NULL, 10);
+		input.pop_back();
+	}
+
 	std::vector<std::string>::iterator it = input.begin();
 	std::vector<std::string>::iterator ite = input.end();
 
@@ -90,8 +100,8 @@ void PmergeMe::populateContainers(std::vector<std::string> input)
 	while (it != ite)
 	{
 		number = std::strtol((*it).c_str(), NULL, 10);
-		_inputDeque.push_back(number);
-		_inputVector.push_back(number);
+		inputDeque.push_back(number);
+		inputVector.push_back(number);
 		++it;
 	}
 }
