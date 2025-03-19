@@ -11,6 +11,7 @@ int PmergeMe::straggler;
 std::vector<std::pair<int, int> > PmergeMe::vPairs;
 std::vector<int> PmergeMe::vMain;
 std::vector<int> PmergeMe::vPend;
+std::vector<int> PmergeMe::vJacobsthal;
 
 PmergeMe::PmergeMe(void)
 {
@@ -114,6 +115,7 @@ void PmergeMe::vMergeInsertSort(std::vector<std::string>& input)
 	populateVector(input);
 	fillSortedvPairs();
 	vFillMainAndPend();
+	vFillJacobsthal();
 }
 
 void PmergeMe::populateVector(std::vector<std::string> input)
@@ -174,3 +176,20 @@ void PmergeMe::vFillMainAndPend(void)
 		vPend.push_back(straggler);
 	}
 }	
+
+void PmergeMe::vFillJacobsthal(void)
+{
+	vJacobsthal.push_back(0);
+	vJacobsthal.push_back(1);
+
+	int next = *(vJacobsthal.rbegin() + 1) * 2 + vJacobsthal.back();
+
+	while (next < static_cast<int>(vPend.size()))
+	{
+		vJacobsthal.push_back(next);
+		next = *(vJacobsthal.rbegin() + 1) * 2 + vJacobsthal.back();
+	}
+
+	//delete second element to ensure uniquenesse of indexes
+	vJacobsthal.erase(vJacobsthal.begin() + 1);
+}

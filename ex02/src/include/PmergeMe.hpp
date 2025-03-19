@@ -18,6 +18,7 @@ public:
 	static void populateVector(std::vector<std::string> input);
 	static void fillSortedvPairs(void);
 	static void vFillMainAndPend(void);
+	static void vFillJacobsthal(void);
 
 	static void populateDeque(std::vector<std::string> input);
 
@@ -28,6 +29,7 @@ public:
 	static std::vector<std::pair<int, int> > vPairs;
 	static std::vector<int> vMain;
 	static std::vector<int> vPend;
+	static std::vector<int> vJacobsthal;
 
 	static std::deque<int> inputDeque;
 
