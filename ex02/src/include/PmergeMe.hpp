@@ -4,6 +4,7 @@
 #include <deque>
 #include <string>
 #include <vector>
+#include <ctime>
 
 typedef	std::vector<int>::iterator vIter ;
 typedef std::pair<int, int> intPair;
@@ -21,6 +22,7 @@ public:
 	static void vFillJacobsthal(void);
 	static void vFillInsertion(void);
 	static void vInsertInOrder(void);
+	static void vPrint(void);
 
 	static void populateDeque(std::vector<std::string> input);
 
@@ -33,6 +35,8 @@ public:
 	static std::vector<int> vPend;
 	static std::vector<int> vJacobsthal;
 	static std::vector<int> vInsertion;
+	static clock_t vStart;
+	static clock_t vEnd;
 
 	static std::deque<int> inputDeque;
 

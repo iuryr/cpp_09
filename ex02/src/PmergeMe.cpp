@@ -2,6 +2,7 @@
 #include "qolMacros.hpp"
 #include <algorithm>
 #include <cstdlib>
+#include <ctime>
 
 std::vector<int> PmergeMe::inputVector;
 std::deque<int> PmergeMe::inputDeque;
@@ -13,6 +14,8 @@ std::vector<int> PmergeMe::vMain;
 std::vector<int> PmergeMe::vPend;
 std::vector<int> PmergeMe::vJacobsthal;
 std::vector<int> PmergeMe::vInsertion;
+clock_t PmergeMe::vStart;
+clock_t PmergeMe::vEnd;
 
 PmergeMe::PmergeMe(void)
 {
@@ -113,12 +116,14 @@ void PmergeMe::populateDeque(std::vector<std::string> input)
 
 void PmergeMe::vMergeInsertSort(std::vector<std::string>& input)
 {
+	PmergeMe::vStart = clock();
 	populateVector(input);
 	fillSortedvPairs();
 	vFillMainAndPend();
 	vFillJacobsthal();
 	vFillInsertion();
 	vInsertInOrder();
+	PmergeMe::vEnd = clock();
 }
 
 void PmergeMe::populateVector(std::vector<std::string> input)
@@ -253,4 +258,9 @@ void PmergeMe::vInsertInOrder(void)
 		vMain.insert(position, value);
 		++it;
 	}
+}
+
+void PmergeMe::vPrint(void)
+{
+	std::cout << "Time to process a range of " << vMain.size() << " elements with std::Vector : " << (static_cast<float>((vEnd - vStart)) / CLOCKS_PER_SEC) * 1000000 << " us." << std::endl;
 }

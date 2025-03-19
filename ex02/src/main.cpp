@@ -61,4 +61,5 @@ int main(int argc, char** argv)
 	printBefore(input);
 	PmergeMe::vMergeInsertSort(input);
 	printAfter();
+	PmergeMe::vPrint();
 }
