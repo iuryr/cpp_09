@@ -1,6 +1,5 @@
 #include "PmergeMe.hpp"
 #include "qolMacros.hpp"
-#include <vector>
 
 void printBefore(std::vector<std::string> input)
 {
@@ -19,8 +18,8 @@ void printBefore(std::vector<std::string> input)
 
 void printAfter(void)
 {
-	std::vector<int>::iterator it = PmergeMe::vMain.begin();
-	std::vector<int>::iterator ite = PmergeMe::vMain.end();
+	std::deque<int>::iterator it = PmergeMe::dMain.begin();
+	std::deque<int>::iterator ite = PmergeMe::dMain.end();
 
 	std::cout << "After: ";
 
@@ -60,6 +59,8 @@ int main(int argc, char** argv)
 
 	printBefore(input);
 	PmergeMe::vMergeInsertSort(input);
+	PmergeMe::dMergeInsertSort(input);
 	printAfter();
 	PmergeMe::vPrint();
+	PmergeMe::dPrint();
 }

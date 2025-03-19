@@ -4,9 +4,11 @@
 #include <deque>
 #include <string>
 #include <vector>
+#include <list>
 #include <ctime>
 
 typedef	std::vector<int>::iterator vIter ;
+typedef	std::deque<int>::iterator dIter ;
 typedef std::pair<int, int> intPair;
 
 class PmergeMe
@@ -24,7 +26,14 @@ public:
 	static void vInsertInOrder(void);
 	static void vPrint(void);
 
+	static void dMergeInsertSort(std::vector<std::string>& input);
 	static void populateDeque(std::vector<std::string> input);
+	static void fillSorteddPairs(void);
+	static void dFillMainAndPend(void);
+	static void dFillJacobsthal(void);
+	static void dFillInsertion(void);
+	static void dInsertInOrder(void);
+	static void dPrint(void);
 
 	static bool hasStraggler;
 	static int	straggler;
@@ -39,6 +48,13 @@ public:
 	static clock_t vEnd;
 
 	static std::deque<int> inputDeque;
+	static std::deque<std::pair<int, int> > dPairs;
+	static std::deque<int> dMain;
+	static std::deque<int> dPend;
+	static std::deque<int> dJacobsthal;
+	static std::deque<int> dInsertion;
+	static clock_t dStart;
+	static clock_t dEnd;
 
 private:
 	PmergeMe(void);
